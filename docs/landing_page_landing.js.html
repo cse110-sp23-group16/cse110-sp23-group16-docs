@@ -29,6 +29,8 @@
             <pre class="prettyprint source linenums"><code>window.addEventListener("DOMContentLoaded", init);
 var selectedCategory = "";
 
+import * as analyticsManager from '../analyticsmanager.js';
+const analyticsPageName = "landing"
 /**
  * initialize function, called once whole DOM is parsed
  */
@@ -36,29 +38,41 @@ function init() {
   // localStorage cleared to reset question type and constellation
   localStorage.clear();
 
+  // Create a new session for analytics
+  analyticsManager.setEmptySession();
+
   const continueButton = document.getElementById("continue-button");
   continueButton.classList.add("hidden");
 
   const dailyButton = document.getElementById("daily-horoscope-button");
   dailyButton.addEventListener("click", function () {
-    selectedCategory = "daily";
+    const daily = "daily"
+    selectedCategory = daily;
+    analyticsManager.addSessionCategorySelected(daily);
     setSelection(dailyButton, continueButton);
   });
   const relationshipButton = document.getElementById("relationship-button");
   relationshipButton.addEventListener("click", function () {
-    selectedCategory = "relationship";
+    const relationship = "relationship";
+    selectedCategory = relationship;
+    analyticsManager.addSessionCategorySelected(relationship);
     setSelection(relationshipButton, continueButton);
   });
   const careerButton = document.getElementById("career-button");
   careerButton.addEventListener("click", function () {
-    selectedCategory = "career";
+    const career = "career"
+    selectedCategory = career;
+    analyticsManager.addSessionCategorySelected(career);
     setSelection(careerButton, continueButton);
   });
   const healthButton = document.getElementById("health-button");
   healthButton.addEventListener("click", function () {
-    selectedCategory = "health";
+    const health = "health"
+    selectedCategory = health;
+    analyticsManager.addSessionCategorySelected(health);
     setSelection(healthButton, continueButton);
   });
+  continueButton.addEventListener("click", toSkyMapPage);
 }
 
 /**
@@ -98,6 +112,25 @@ function toSkyMapPage() {
   console.log(selectedCategory);
 }
 
+/**
+ * Time tracker for page analytics, send update to server
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  const startTime = new Date();
+  window.addEventListener("beforeunload", () => {
+    const endTime = new Date();
+    analyticsManager.addSessionPageTime(analyticsPageName, endTime.getTime() - startTime.getTime());
+    analyticsManager.sessionPOST();
+  });
+});
+
+/**
+ * Error tracker for page analytics
+ */
+window.addEventListener("error", (event) => {
+  analyticsManager.addSessionError(analyticsPageName, event.error.name, event.error.message, event.error.stack);
+})
+
 function getCategory() {
   return QuestionCategories.Work;
 }
@@ -111,13 +144,13 @@ function getCategory() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background_Background.html">Background</a></li><li><a href="Constellation_Constellation.html">Constellation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background_Background.html">Background</a></li><li><a href="Constellation_Constellation.html">Constellation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSessionCategorySelected">addSessionCategorySelected</a></li><li><a href="global.html#addSessionClick">addSessionClick</a></li><li><a href="global.html#addSessionError">addSessionError</a></li><li><a href="global.html#addSessionPageTime">addSessionPageTime</a></li><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#getEmptySession">getEmptySession</a></li><li><a href="global.html#getSession">getSession</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#makeid">makeid</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#sessionStarSelectedInc">sessionStarSelectedInc</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setEmptySession">setEmptySession</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#setSessionExit">setSessionExit</a></li><li><a href="global.html#setSessionStatus">setSessionStatus</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li><li><a href="global.html#writeSession">writeSession</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jun 07 2023 22:34:52 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jun 07 2023 22:38:06 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
