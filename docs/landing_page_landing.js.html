@@ -26,12 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import * as analyticsManager from "../analyticsmanager.js";
-const analyticsPageName = "landing";
-const analyticsStatus = 1;
-analyticsManager.defaultPageAnalytics(analyticsPageName, analyticsStatus);
-
-window.addEventListener("DOMContentLoaded", init);
+            <pre class="prettyprint source linenums"><code>window.addEventListener("DOMContentLoaded", init);
 var selectedCategory = "";
 
 /**
@@ -40,11 +35,6 @@ var selectedCategory = "";
 function init() {
   // localStorage cleared to reset question type and constellation
   localStorage.clear();
-  populateDropdown();
-  initializeVoicing();
-
-  // Create a new session for analytics, tag with page name
-  analyticsManager.setEmptySession();
 
   // Hide continue button
   const continueButton = document.getElementById("continue-button");
@@ -63,11 +53,6 @@ function init() {
   setCategoryEffect(relationshipButton, "relationship", relationshipIconURL);
   setCategoryEffect(careerButton, "career", carrerIconURL);
   setCategoryEffect(healthButton, "health", healthIconURL);
-
-  // Attach onclick to start and continue
-  const startButton = document.getElementById("start-button");
-  startButton.addEventListener("click", handleStart);
-  continueButton.addEventListener("click", toSkyMapPage);
 }
 
 /**
@@ -140,16 +125,7 @@ function toSkyMapPage() {
   const coverDiv = document.getElementById("cover-div");
   const tellerEffect = document.getElementById("teller-effect");
   const tellerImg = document.getElementById("teller");
-  //Find user's decision on using voicing text
-  const voiceButton = document.getElementById("voice-button");
-  if (voiceButton.classList.toggle("crossed-out") == true) {
-    let choice = document.querySelector("select").value;
-    if (choice != "select") {
-      localStorage.setItem("voiceChoice", choice);
-    }
-  } else {
-    localStorage.setItem("voiceChoice", -1);
-  }
+
   // Animations
   tellerImg.classList.remove("teller-move");
   actionDiv.classList.add("fade-out");
@@ -169,9 +145,6 @@ function toSkyMapPage() {
   // Set category
   localStorage.setItem("questionType", selectedCategory);
   console.log(selectedCategory);
-
-  //Update Analytics
-  analyticsManager.addSessionCategorySelected(selectedCategory);
 }
 
 function getCategory() {
@@ -203,34 +176,6 @@ function handleStart() {
     startButton.classList.add("removed");
   });
 }
-
-// Helper function that populates the dropdown menu for the voice selection
-function populateDropdown() {
-  let select = document.getElementById("voice-select");
-  let synth = window.speechSynthesis;
-  synth.addEventListener("voiceschanged", () => {
-    let list = synth.getVoices();
-    for (let i in list) {
-      let voice = list[i];
-      let option = document.createElement("option");
-      option.text = voice.name;
-      option.value = i;
-      select.add(option);
-    }
-  });
-  console.log("populated");
-}
-//Initialize the voicing text selection and buttons
-function initializeVoicing() {
-  const option = document.querySelector("#voice-select");
-  option.classList.add("hidden");
-  const voiceButton = document.getElementById("voice-button");
-  voiceButton.classList.toggle("crossed-out");
-  voiceButton.addEventListener("click", function () {
-    voiceButton.classList.toggle("crossed-out");
-    option.classList.toggle("hidden");
-  });
-}
 </code></pre>
         </article>
     </section>
@@ -241,13 +186,13 @@ function initializeVoicing() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background_Background.html">Background</a></li><li><a href="Constellation_Constellation.html">Constellation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSessionCategorySelected">addSessionCategorySelected</a></li><li><a href="global.html#addSessionClick">addSessionClick</a></li><li><a href="global.html#addSessionError">addSessionError</a></li><li><a href="global.html#addSessionPageTime">addSessionPageTime</a></li><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#defaultPageAnalytics">defaultPageAnalytics</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#getEmptySession">getEmptySession</a></li><li><a href="global.html#getSession">getSession</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#makeid">makeid</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#sessionStarSelectedInc">sessionStarSelectedInc</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setEmptySession">setEmptySession</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#setSessionExit">setSessionExit</a></li><li><a href="global.html#setSessionStatus">setSessionStatus</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li><li><a href="global.html#writeSession">writeSession</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background_Background.html">Background</a></li><li><a href="Constellation_Constellation.html">Constellation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sat Jun 10 2023 17:58:07 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sat Jun 10 2023 18:27:39 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
