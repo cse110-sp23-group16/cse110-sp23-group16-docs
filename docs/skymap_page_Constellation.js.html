@@ -28,20 +28,20 @@
         <article>
             <pre class="prettyprint source linenums"><code>import { ConstellationStar } from "./ConstellationStar.js";
 
-/**
- * This class draws and tracks its own stars. Must be given coordinates
- * of the stars relative to the top left of the screen
- */
+/*
+This class draws and tracks its own stars. Must be given coordinates
+of the stars relative to the top left of the screen
+*/
 export class Constellation {
   /**
    * Takes star list which is an array of star coordinates and creates stars
    * @param {string} name name of constellation
-   * @param {JSONobject} connect the paths to connect all the stars in the constellation.
+   * @param {JSONobject}connect the paths to connect all the stars in the constellation.
    * @param {CanvasRenderingContext2D} ctx
    * @param {Array} star_coord_list list of star coordinates
-   * @param {Number} ratio scaling ratio along with background
-   * @param {Number} width canvas width
-   * @param {Number} height canvas height
+   * @param {TODO} ratio TODO
+   * @param {TODO} width TODO
+   * @param {TODO} height TODO
    */
   constructor(name, connect, ctx, star_coord_list, ratio, width, height) {
     this.name = name;
@@ -75,48 +75,40 @@ export class Constellation {
     }
   }
 
-  /**
-   * Click event handler, pass click event to all stars in the constellation
-   * @param {Number} x coordinate
-   * @param {Number} y coordinate
-   */
+  /*
+    Click event handler, pass click event to all stars in the constellation
+    */
   click(x, y) {
     this.stars.forEach((star) =>
       star.click(x - this.offset_x, y - this.offset_y)
     );
   }
 
-  /**
-   * Draw function, draw all stars in constellation
-   * @param {Number} user_x user view offset x
-   * @param {Number} user_y user view offset y
-   */
+  /*
+    Draw function, draw all stars in constellation
+    */
   draw(user_x, user_y) {
     this.stars.forEach((star) => star.update(user_x, user_y));
   }
 
-  /**
-   * Update function, to be called by animation loop
-   * @param {Number} user_x user view offset x
-   * @param {Number} user_y user view offset y
-   */
+  /*
+    Update function, to be called by animation loop
+    */
   update(user_x, user_y) {
     this.draw(user_x, user_y);
   }
 
-  /**
-   * New update function if the current constellation is the final result.
-   * @param {Number} user_x user view offset x
-   * @param {Number} user_y user view offset y
-   */
+  /*
+    New update function if the current constellation is the final result.
+    */
   updateNew(user_x, user_y) {
     this.draw(user_x, user_y);
     this.connectAll();
   }
 
-  /**
-   * @Property {Function} Connect all the points in the constellation
-   */
+  /*
+        Connect all the points in the constellation
+        */
   connectAll() {
     let points = this.connect;
     for (let starting in points) {
@@ -130,27 +122,18 @@ export class Constellation {
     }
   }
 
-  /**
-   * Set this constellation as chosen by the user
-   * @param {String} choice set contellation as choosen
-   */
   setChosen(choice) {
     this.isChosen = choice;
   }
 
-  /**
-   * Set the display offset
-   * @param {Number} offset_x user view offset
-   * @param {Number} offset_y user view offset
-   */
   setOffset(offset_x, offset_y) {
     this.offset_x = offset_x;
     this.offset_y = offset_y;
   }
 
-  /**
-   * @Property {Function} Get constellation selected ratio
-   */
+  /*
+    Get constellation selected ratio
+    */
   get selected_ratio() {
     let stars_selected_cnt = 0;
     for (const star of this.stars) {
@@ -161,9 +144,9 @@ export class Constellation {
     return stars_selected_cnt / this.stars.length;
   }
 
-  /**
-   * @Property {Function} Get the number of selected stars in the constellation
-   */
+  /*
+    Get the number of selected stars in the constellation
+    */
   get selected_number() {
     let stars_selected_cnt = 0;
     for (const star of this.stars) {
@@ -184,13 +167,13 @@ export class Constellation {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background.html">Background</a></li><li><a href="BackgroundStar.html">BackgroundStar</a></li><li><a href="Constellation.html">Constellation</a></li><li><a href="ConstellationStar.html">ConstellationStar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animate">animate</a></li><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#constellationList">constellationList</a></li><li><a href="global.html#decideConstellation">decideConstellation</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#goToPage">goToPage</a></li><li><a href="global.html#handleClickCanvas">handleClickCanvas</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializeConstellation">initializeConstellation</a></li><li><a href="global.html#loadJsonData">loadJsonData</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setRatio">setRatio</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#setShootingStars">setShootingStars</a></li><li><a href="global.html#stopSpeechSynthesis">stopSpeechSynthesis</a></li><li><a href="global.html#stopTalkWhenReload">stopTalkWhenReload</a></li><li><a href="global.html#toLandingPage">toLandingPage</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li><li><a href="global.html#tutorialSetup">tutorialSetup</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background_Background.html">Background</a></li><li><a href="Constellation_Constellation.html">Constellation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Jun 11 2023 04:01:23 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Jun 11 2023 04:03:09 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
