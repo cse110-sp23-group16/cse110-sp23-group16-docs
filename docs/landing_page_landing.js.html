@@ -26,12 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import * as analyticsManager from "../analyticsmanager.js";
-const analyticsPageName = "landing";
-const analyticsStatus = 1;
-analyticsManager.defaultPageAnalytics(analyticsPageName, analyticsStatus);
-
-window.addEventListener("DOMContentLoaded", init);
+            <pre class="prettyprint source linenums"><code>window.addEventListener("DOMContentLoaded", init);
 var selectedCategory = "";
 
 /**
@@ -42,9 +37,6 @@ function init() {
   localStorage.clear();
   populateDropdown();
   initializeVoicing();
-
-  // Create a new session for analytics, tag with page name
-  analyticsManager.setEmptySession();
 
   // Hide continue button
   const continueButton = document.getElementById("continue-button");
@@ -63,11 +55,6 @@ function init() {
   setCategoryEffect(relationshipButton, "relationship", relationshipIconURL);
   setCategoryEffect(careerButton, "career", carrerIconURL);
   setCategoryEffect(healthButton, "health", healthIconURL);
-
-  // Attach onclick to start and continue
-  const startButton = document.getElementById("start-button");
-  startButton.addEventListener("click", handleStart);
-  continueButton.addEventListener("click", toSkyMapPage);
 }
 
 /**
@@ -169,9 +156,6 @@ function toSkyMapPage() {
   // Set category
   localStorage.setItem("questionType", selectedCategory);
   console.log(selectedCategory);
-
-  //Update Analytics
-  analyticsManager.addSessionCategorySelected(selectedCategory);
 }
 
 function getCategory() {
@@ -241,13 +225,13 @@ function initializeVoicing() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background.html">Background</a></li><li><a href="BackgroundStar.html">BackgroundStar</a></li><li><a href="Constellation.html">Constellation</a></li><li><a href="ConstellationStar.html">ConstellationStar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSessionCategorySelected">addSessionCategorySelected</a></li><li><a href="global.html#addSessionClick">addSessionClick</a></li><li><a href="global.html#addSessionError">addSessionError</a></li><li><a href="global.html#addSessionPageTime">addSessionPageTime</a></li><li><a href="global.html#animate">animate</a></li><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#constellationList">constellationList</a></li><li><a href="global.html#decideConstellation">decideConstellation</a></li><li><a href="global.html#defaultPageAnalytics">defaultPageAnalytics</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#getEmptySession">getEmptySession</a></li><li><a href="global.html#getSession">getSession</a></li><li><a href="global.html#goToPage">goToPage</a></li><li><a href="global.html#handleClickCanvas">handleClickCanvas</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializeConstellation">initializeConstellation</a></li><li><a href="global.html#loadJsonData">loadJsonData</a></li><li><a href="global.html#makeid">makeid</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#sessionStarSelectedInc">sessionStarSelectedInc</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setEmptySession">setEmptySession</a></li><li><a href="global.html#setRatio">setRatio</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#setSessionExit">setSessionExit</a></li><li><a href="global.html#setSessionStatus">setSessionStatus</a></li><li><a href="global.html#setShootingStars">setShootingStars</a></li><li><a href="global.html#stopSpeechSynthesis">stopSpeechSynthesis</a></li><li><a href="global.html#stopTalkWhenReload">stopTalkWhenReload</a></li><li><a href="global.html#toLandingPage">toLandingPage</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li><li><a href="global.html#tutorialSetup">tutorialSetup</a></li><li><a href="global.html#writeSession">writeSession</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background_Background.html">Background</a></li><li><a href="Constellation_Constellation.html">Constellation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Jun 11 2023 04:26:49 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Jun 11 2023 04:30:42 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
