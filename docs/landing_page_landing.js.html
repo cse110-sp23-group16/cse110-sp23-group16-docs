@@ -27,17 +27,27 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import * as analyticsManager from "../analyticsmanager.js";
+import playClickSound from "../../utils/playClickSound.js";
+import playBgMusic from "../../utils/playBgMusic.js";
 const analyticsPageName = "landing";
 const analyticsStatus = 1;
 analyticsManager.defaultPageAnalytics(analyticsPageName, analyticsStatus);
 
 window.addEventListener("DOMContentLoaded", init);
 var selectedCategory = "";
+let backgroundMusic;
+let clickSound;
+const dailyIconURL = "../../assets/Icons/DailyHoroscope.png";
+const carrerIconURL = "../../assets/Icons/Career.png";
+const healthIconURL = "../../assets/Icons/Health.png";
+const relationshipIconURL = "../../assets/Icons/Relationship.png";
 
 /**
  * initialize function, called once whole DOM is parsed
  */
 function init() {
+  backgroundMusic = document.getElementById("background-music");
+
   // localStorage cleared to reset question type and constellation
   localStorage.clear();
   populateDropdown();
@@ -55,10 +65,6 @@ function init() {
   const relationshipButton = document.getElementById("relationship-button");
   const careerButton = document.getElementById("career-button");
   const healthButton = document.getElementById("health-button");
-  const dailyIconURL = "../../assets/Icons/DailyHoroscope.png";
-  const carrerIconURL = "../../assets/Icons/Career.png";
-  const healthIconURL = "../../assets/Icons/Health.png";
-  const relationshipIconURL = "../../assets/Icons/Relationship.png";
   setCategoryEffect(dailyButton, "daily", dailyIconURL);
   setCategoryEffect(relationshipButton, "relationship", relationshipIconURL);
   setCategoryEffect(careerButton, "career", carrerIconURL);
@@ -82,6 +88,8 @@ function setCategoryEffect(categoryButton, categoryName, iconURL) {
   const continueButton = document.getElementById("continue-button");
   categoryButton.addEventListener("click", function () {
     selectedCategory = categoryName;
+    clickSound = document.getElementById("clickSound");
+    playClickSound(clickSound, selectedCategory);
     categoryIconSet.style.backgroundImage = `url(${iconURL})`;
     setSelection(categoryButton, continueButton);
   });
@@ -164,7 +172,12 @@ function toSkyMapPage() {
     tellerEffect.classList.remove("half-transparent");
     tellerEffect.classList.add("transparent");
     // Go to next page
-    window.location.href = "../skymap_page/skymap.html";
+    playClickSound(
+      clickSound,
+      selectedCategory,
+      backgroundMusic.currentTime,
+      () => (window.location.href = "../skymap_page/skymap.html")
+    );
   });
   // Set category
   localStorage.setItem("questionType", selectedCategory);
@@ -189,6 +202,7 @@ function handleStart() {
   const title = document.querySelector("header");
   const clawsDiv = document.getElementById("claws-div");
   const categoryIconDiv = document.getElementById("category-icon-div");
+  playBgMusic(backgroundMusic);
 
   actionDiv.classList.remove("hidden");
   categoriesDiv.classList.add("fade-in");
@@ -241,13 +255,13 @@ function initializeVoicing() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background.html">Background</a></li><li><a href="BackgroundStar.html">BackgroundStar</a></li><li><a href="Constellation.html">Constellation</a></li><li><a href="ConstellationStar.html">ConstellationStar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSessionCategorySelected">addSessionCategorySelected</a></li><li><a href="global.html#addSessionClick">addSessionClick</a></li><li><a href="global.html#addSessionError">addSessionError</a></li><li><a href="global.html#addSessionPageTime">addSessionPageTime</a></li><li><a href="global.html#animate">animate</a></li><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#constellationList">constellationList</a></li><li><a href="global.html#decideConstellation">decideConstellation</a></li><li><a href="global.html#defaultPageAnalytics">defaultPageAnalytics</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#getEmptySession">getEmptySession</a></li><li><a href="global.html#getSession">getSession</a></li><li><a href="global.html#goToPage">goToPage</a></li><li><a href="global.html#handleClickCanvas">handleClickCanvas</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializeConstellation">initializeConstellation</a></li><li><a href="global.html#loadJsonData">loadJsonData</a></li><li><a href="global.html#makeid">makeid</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#sessionStarSelectedInc">sessionStarSelectedInc</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setEmptySession">setEmptySession</a></li><li><a href="global.html#setRatio">setRatio</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#setSessionExit">setSessionExit</a></li><li><a href="global.html#setSessionStatus">setSessionStatus</a></li><li><a href="global.html#setShootingStars">setShootingStars</a></li><li><a href="global.html#stopSpeechSynthesis">stopSpeechSynthesis</a></li><li><a href="global.html#stopTalkWhenReload">stopTalkWhenReload</a></li><li><a href="global.html#toLandingPage">toLandingPage</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li><li><a href="global.html#tutorialSetup">tutorialSetup</a></li><li><a href="global.html#writeSession">writeSession</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background.html">Background</a></li><li><a href="BackgroundStar.html">BackgroundStar</a></li><li><a href="Constellation.html">Constellation</a></li><li><a href="ConstellationStar.html">ConstellationStar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSessionCategorySelected">addSessionCategorySelected</a></li><li><a href="global.html#addSessionClick">addSessionClick</a></li><li><a href="global.html#addSessionError">addSessionError</a></li><li><a href="global.html#addSessionPageTime">addSessionPageTime</a></li><li><a href="global.html#animate">animate</a></li><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#constellationList">constellationList</a></li><li><a href="global.html#defaultPageAnalytics">defaultPageAnalytics</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#getEmptySession">getEmptySession</a></li><li><a href="global.html#getSession">getSession</a></li><li><a href="global.html#goToPage">goToPage</a></li><li><a href="global.html#handleClickCanvas">handleClickCanvas</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializeConstellation">initializeConstellation</a></li><li><a href="global.html#loadJsonData">loadJsonData</a></li><li><a href="global.html#makeid">makeid</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#sessionStarSelectedInc">sessionStarSelectedInc</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setEmptySession">setEmptySession</a></li><li><a href="global.html#setRatio">setRatio</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#setSessionExit">setSessionExit</a></li><li><a href="global.html#setSessionStatus">setSessionStatus</a></li><li><a href="global.html#setShootingStars">setShootingStars</a></li><li><a href="global.html#stopSpeechSynthesis">stopSpeechSynthesis</a></li><li><a href="global.html#stopTalkWhenReload">stopTalkWhenReload</a></li><li><a href="global.html#toLandingPage">toLandingPage</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li><li><a href="global.html#tutorialSetup">tutorialSetup</a></li><li><a href="global.html#writeSession">writeSession</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Jun 12 2023 01:35:24 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Jun 12 2023 01:42:06 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
