@@ -27,16 +27,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { setShootingStars } from "../shootingStar.js";
-import playClickSound from "../../utils/playClickSound.js";
-import * as analyticsManager from "../analyticsmanager.js";
-import playBgMusic from "../../utils/playBgMusic.js";
-
-const analyticsPageName = "response";
-const analyticsStatus = 1;
-analyticsManager.defaultPageAnalytics(analyticsPageName, analyticsStatus);
-
 let synth;
-let synthExist = -1;
 const categories = ["relationship", "career", "health", "daily"];
 const constellations = [
   "Crux",
@@ -44,7 +35,7 @@ const constellations = [
   "Orion",
   "Canis Major",
   "Ursa Major",
-  "Carina",
+  "Carnia",
   "Ophiuchus",
   "Armadillo Dragon",
 ];
@@ -63,7 +54,6 @@ const openingSentences = [
   "Greetings, seeker of answers! Trust in the whispers of the universe that brought you here.",
   "Welcome, dear one! Let the dance of divination commence.",
 ];
-let backgroundMusic;
 
 /*
 Once called, this function hides away the triggering button, displays 
@@ -134,8 +124,6 @@ function animateText(answer, textElement) {
     if (index &lt; words.length) {
       textElement.textContent += words[index] + " ";
       index++;
-      let container = textElement.parentNode;
-      container.scrollTop = container.scrollHeight;
     } else {
       clearInterval(interval);
       explanation.classList.remove("glow");
@@ -166,24 +154,17 @@ function redirectToPage(url) {
 Once called, the window will be showing the thankyou page.
 */
 function goToPage() {
-  playClickSound(
-    document.getElementById("clickSound"),
-    localStorage.getItem("questionType"),
-    backgroundMusic.currentTime,
-    () => (window.location.href = "../thankyou_page/thankyou.html")
-  );
-  stopSpeechSynthesis();
+  window.location.href = "../thankyou_page/thankyou.html";
+  synth.cancel();
 }
 
 function speak(text) {
   const chosenVoice = localStorage.getItem("voiceChoice");
   if (chosenVoice == -1) {
-    synthExist = -1;
     return;
   }
   let utterance = new SpeechSynthesisUtterance();
   let list;
-  synthExist = 1;
   synth = window.speechSynthesis;
   synth.addEventListener("voiceschanged", () => {
     list = synth.getVoices();
@@ -196,8 +177,6 @@ function speak(text) {
 Main section rising up to its position (animated transition)
 */
 window.addEventListener("load", function () {
-  backgroundMusic = document.getElementById("background-music");
-  playBgMusic(backgroundMusic);
   var mainContent = document.querySelector("main");
   var desiredPosition = 0;
 
@@ -220,9 +199,7 @@ window.addEventListener("load", function () {
 window.addEventListener("beforeunload", stopSpeechSynthesis);
 
 function stopSpeechSynthesis() {
-  if (synthExist == 1 &amp;&amp; synth.speaking) {
-    synth.cancel();
-  }
+  synth.cancel();
 }
 </code></pre>
         </article>
@@ -234,13 +211,13 @@ function stopSpeechSynthesis() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background.html">Background</a></li><li><a href="BackgroundStar.html">BackgroundStar</a></li><li><a href="Constellation.html">Constellation</a></li><li><a href="ConstellationStar.html">ConstellationStar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSessionCategorySelected">addSessionCategorySelected</a></li><li><a href="global.html#addSessionClick">addSessionClick</a></li><li><a href="global.html#addSessionError">addSessionError</a></li><li><a href="global.html#addSessionPageTime">addSessionPageTime</a></li><li><a href="global.html#animate">animate</a></li><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#constellationList">constellationList</a></li><li><a href="global.html#defaultPageAnalytics">defaultPageAnalytics</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#getEmptySession">getEmptySession</a></li><li><a href="global.html#getSession">getSession</a></li><li><a href="global.html#goToPage">goToPage</a></li><li><a href="global.html#handleClickCanvas">handleClickCanvas</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializeConstellation">initializeConstellation</a></li><li><a href="global.html#loadJsonData">loadJsonData</a></li><li><a href="global.html#makeid">makeid</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#sessionStarSelectedInc">sessionStarSelectedInc</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setEmptySession">setEmptySession</a></li><li><a href="global.html#setRatio">setRatio</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#setSessionExit">setSessionExit</a></li><li><a href="global.html#setSessionStatus">setSessionStatus</a></li><li><a href="global.html#setShootingStars">setShootingStars</a></li><li><a href="global.html#stopSpeechSynthesis">stopSpeechSynthesis</a></li><li><a href="global.html#stopTalkWhenReload">stopTalkWhenReload</a></li><li><a href="global.html#toLandingPage">toLandingPage</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li><li><a href="global.html#tutorialSetup">tutorialSetup</a></li><li><a href="global.html#writeSession">writeSession</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background_Background.html">Background</a></li><li><a href="Constellation_Constellation.html">Constellation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Jun 12 2023 03:18:01 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Jun 12 2023 03:29:43 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
