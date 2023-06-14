@@ -67,7 +67,9 @@ let constellationList = [
 // Run the init() function when the page has loaded
 window.addEventListener("DOMContentLoaded", init);
 
-// Starts the program, all function calls trace back here
+/**
+ * Initialize function, called once whole DOM is parsed
+ */
 async function init() {
   //Set up the tutorial dialog and buttons
   let dialog = document.querySelector("dialog");
@@ -114,6 +116,10 @@ async function init() {
   document.getElementById("next-button").onclick = goToPage;
 }
 
+/**
+ * A function that returns the proper scale ratio based on user screen size.
+ * @return an integer ratio. 
+ */
 function setRatio() {
   let defaultWidth = 1920;
   let defaultHeight = 1080;
@@ -130,8 +136,8 @@ let ratio = setRatio();
 
 /**
  * Set up canvas with panning
- * @param {TODO} canvas TODO
- * @param {TODO} sky_background TODO
+ * @param {HTMLCanvasElement} canvas
+ * @param {Background} sky_background
  * @returns canvas
  * Reference: https://codepen.io/chengarda/pen/wRxoyB
  */
@@ -198,7 +204,14 @@ function setCanvasPanning(canvas, sky_background) {
 
   return cameraOffset;
 }
-
+/**
+ * A function that is assigned to canvas when listening to click events.
+ * Updates the numbers of stars selected the numbers stars clicked for each
+ * constellation. Stops the selection once 5 stars are selected.
+ * @param {event} event 
+ * @param {array} constellation_arr 
+ * @param {background} sky_background 
+ */
 function handleClickCanvas(event, constellation_arr, sky_background) {
   let canvas = document.querySelector("canvas");
   let rect = canvas.getBoundingClientRect();
@@ -225,7 +238,13 @@ function handleClickCanvas(event, constellation_arr, sky_background) {
   console.log(ratios);
 }
 
-// Decide which constellation is selected based on most stars selected;
+/**
+ * A function that goes through the selected number of stars of every
+ * constellation and decide which constellation has the most.
+ * Afterwards, connect the stars and show image. Then show the next button.
+ * @param {array} constellation_arr 
+ * @param {background} sky_background 
+ */
 function decideConstellation(constellation_arr, sky_background) {
   let numStar = constellation_arr[0].selected_number;
   let finalConstellation = constellation_arr[0];
@@ -290,12 +309,17 @@ function animate(
   }
 }
 
-// Natigation
+/**
+ * A function that's bounded to the next button the navigate to the next page.
+ */
 function goToPage() {
   window.location.href = "../explanation_page/explanation.html";
 }
 
-// helper function to load json data
+/**
+ * A function that preloads all the necessary JSON data.
+ * @returns The pair of constellation locations and connection pairs.
+ */
 async function loadJsonData() {
   const clocResponse = await fetch("./constellation_location.json");
 
@@ -306,6 +330,10 @@ async function loadJsonData() {
   return { cloc, connect };
 }
 
+/**
+ * A function that adds event listeners to everything related to
+ * the tutorial dialog and buttons
+ */
 function tutorialSetup() {
   let gotIt = document.getElementById("confirm");
   let tutorial = document.getElementById("tutorial");
@@ -332,13 +360,13 @@ function tutorialSetup() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background_Background.html">Background</a></li><li><a href="Constellation_Constellation.html">Constellation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background_Background.html">Background</a></li><li><a href="Constellation_Constellation.html">Constellation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#decideConstellation">decideConstellation</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#goToPage">goToPage</a></li><li><a href="global.html#handleClickCanvas">handleClickCanvas</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadJsonData">loadJsonData</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setRatio">setRatio</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li><li><a href="global.html#tutorialSetup">tutorialSetup</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jun 14 2023 19:34:41 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jun 14 2023 19:47:16 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
