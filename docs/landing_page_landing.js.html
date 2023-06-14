@@ -26,35 +26,15 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import * as analyticsManager from "../analyticsmanager.js";
-import playClickSound from "../../utils/playClickSound.js";
-import playBgMusic from "../../utils/playBgMusic.js";
-const analyticsPageName = "landing";
-const analyticsStatus = 1;
-analyticsManager.defaultPageAnalytics(analyticsPageName, analyticsStatus);
-
-window.addEventListener("DOMContentLoaded", init);
+            <pre class="prettyprint source linenums"><code>window.addEventListener("DOMContentLoaded", init);
 var selectedCategory = "";
-let backgroundMusic;
-let clickSound;
-const dailyIconURL = "../../assets/Icons/DailyHoroscope.png";
-const carrerIconURL = "../../assets/Icons/Career.png";
-const healthIconURL = "../../assets/Icons/Health.png";
-const relationshipIconURL = "../../assets/Icons/Relationship.png";
 
 /**
- * @Property {Function} initialize function, called once whole DOM is parsed
+ * initialize function, called once whole DOM is parsed
  */
 function init() {
-  backgroundMusic = document.getElementById("background-music");
-
   // localStorage cleared to reset question type and constellation
   localStorage.clear();
-  populateDropdown();
-  initializeVoicing();
-
-  // Create a new session for analytics, tag with page name
-  analyticsManager.setEmptySession();
 
   // Hide continue button
   const continueButton = document.getElementById("continue-button");
@@ -65,15 +45,14 @@ function init() {
   const relationshipButton = document.getElementById("relationship-button");
   const careerButton = document.getElementById("career-button");
   const healthButton = document.getElementById("health-button");
+  const dailyIconURL = "../../assets/Icons/DailyHoroscope.png";
+  const carrerIconURL = "../../assets/Icons/Career.png";
+  const healthIconURL = "../../assets/Icons/Health.png";
+  const relationshipIconURL = "../../assets/Icons/Relationship.png";
   setCategoryEffect(dailyButton, "daily", dailyIconURL);
   setCategoryEffect(relationshipButton, "relationship", relationshipIconURL);
   setCategoryEffect(careerButton, "career", carrerIconURL);
   setCategoryEffect(healthButton, "health", healthIconURL);
-
-  // Attach onclick to start and continue
-  const startButton = document.getElementById("start-button");
-  startButton.addEventListener("click", handleStart);
-  continueButton.addEventListener("click", toSkyMapPage);
 }
 
 /**
@@ -88,8 +67,6 @@ function setCategoryEffect(categoryButton, categoryName, iconURL) {
   const continueButton = document.getElementById("continue-button");
   categoryButton.addEventListener("click", function () {
     selectedCategory = categoryName;
-    clickSound = document.getElementById("clickSound");
-    playClickSound(clickSound, selectedCategory);
     categoryIconSet.style.backgroundImage = `url(${iconURL})`;
     setSelection(categoryButton, continueButton);
   });
@@ -139,8 +116,8 @@ function setSelection(passedButton, continueButton) {
 }
 
 /**
- * @Property {Function} Adds the type of question into localStorage under the key "questionType",
- * and routes to skymap page.
+ * Adds the type of question into localStorage under the key "questionType",
+ * and routes to skymap page
  */
 function toSkyMapPage() {
   // Transition Animation
@@ -148,16 +125,7 @@ function toSkyMapPage() {
   const coverDiv = document.getElementById("cover-div");
   const tellerEffect = document.getElementById("teller-effect");
   const tellerImg = document.getElementById("teller");
-  //Find user's decision on using voicing text
-  const voiceButton = document.getElementById("voice-button");
-  if (voiceButton.classList.toggle("crossed-out") == true) {
-    let choice = document.querySelector("select").value;
-    if (choice != "select") {
-      localStorage.setItem("voiceChoice", choice);
-    }
-  } else {
-    localStorage.setItem("voiceChoice", -1);
-  }
+
   // Animations
   tellerImg.classList.remove("teller-move");
   actionDiv.classList.add("fade-out");
@@ -172,19 +140,19 @@ function toSkyMapPage() {
     tellerEffect.classList.remove("half-transparent");
     tellerEffect.classList.add("transparent");
     // Go to next page
-    localStorage.setItem("musicPlayTime", backgroundMusic.currentTime);
     window.location.href = "../skymap_page/skymap.html";
   });
   // Set category
   localStorage.setItem("questionType", selectedCategory);
   console.log(selectedCategory);
+}
 
-  //Update Analytics
-  analyticsManager.addSessionCategorySelected(selectedCategory);
+function getCategory() {
+  return QuestionCategories.Work;
 }
 
 /**
- * @Property {Function} Handle click on start button
+ * Handle click on start button
  */
 function handleStart() {
   const startButton = document.getElementById("start-button");
@@ -194,7 +162,6 @@ function handleStart() {
   const title = document.querySelector("header");
   const clawsDiv = document.getElementById("claws-div");
   const categoryIconDiv = document.getElementById("category-icon-div");
-  playBgMusic(backgroundMusic);
 
   actionDiv.classList.remove("hidden");
   categoriesDiv.classList.add("fade-in");
@@ -209,39 +176,6 @@ function handleStart() {
     startButton.classList.add("removed");
   });
 }
-
-/**
- * @Property {Function} Helper function that populates the dropdown menu for the voice selection
- */
-function populateDropdown() {
-  let select = document.getElementById("voice-select");
-  let synth = window.speechSynthesis;
-  synth.addEventListener("voiceschanged", () => {
-    let list = synth.getVoices();
-    for (let i in list) {
-      let voice = list[i];
-      let option = document.createElement("option");
-      option.text = voice.name;
-      option.value = i;
-      select.add(option);
-    }
-  });
-  console.log("populated");
-}
-
-/**
- * @Property {Function} Initialize the voicing text selection and buttons
- */
-function initializeVoicing() {
-  const option = document.querySelector("#voice-select");
-  option.classList.add("hidden");
-  const voiceButton = document.getElementById("voice-button");
-  voiceButton.classList.toggle("crossed-out");
-  voiceButton.addEventListener("click", function () {
-    voiceButton.classList.toggle("crossed-out");
-    option.classList.toggle("hidden");
-  });
-}
 </code></pre>
         </article>
     </section>
@@ -252,13 +186,13 @@ function initializeVoicing() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background.html">Background</a></li><li><a href="BackgroundStar.html">BackgroundStar</a></li><li><a href="Constellation.html">Constellation</a></li><li><a href="ConstellationStar.html">ConstellationStar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSessionCategorySelected">addSessionCategorySelected</a></li><li><a href="global.html#addSessionClick">addSessionClick</a></li><li><a href="global.html#addSessionError">addSessionError</a></li><li><a href="global.html#addSessionPageTime">addSessionPageTime</a></li><li><a href="global.html#animate">animate</a></li><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#constellationList">constellationList</a></li><li><a href="global.html#defaultPageAnalytics">defaultPageAnalytics</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#getEmptySession">getEmptySession</a></li><li><a href="global.html#getSession">getSession</a></li><li><a href="global.html#goToPage">goToPage</a></li><li><a href="global.html#handleClickCanvas">handleClickCanvas</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initializeConstellation">initializeConstellation</a></li><li><a href="global.html#initializeVoicing">initializeVoicing</a></li><li><a href="global.html#loadJsonData">loadJsonData</a></li><li><a href="global.html#makeid">makeid</a></li><li><a href="global.html#populateDropdown">populateDropdown</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#sessionStarSelectedInc">sessionStarSelectedInc</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setEmptySession">setEmptySession</a></li><li><a href="global.html#setRatio">setRatio</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#setSessionExit">setSessionExit</a></li><li><a href="global.html#setSessionStatus">setSessionStatus</a></li><li><a href="global.html#setShootingStars">setShootingStars</a></li><li><a href="global.html#stopSpeechSynthesis">stopSpeechSynthesis</a></li><li><a href="global.html#stopTalkWhenReload">stopTalkWhenReload</a></li><li><a href="global.html#toLandingPage">toLandingPage</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li><li><a href="global.html#tutorialSetup">tutorialSetup</a></li><li><a href="global.html#writeSession">writeSession</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Background_Background.html">Background</a></li><li><a href="Constellation_Constellation.html">Constellation</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateText">animateText</a></li><li><a href="global.html#displayText">displayText</a></li><li><a href="global.html#fetchResponses">fetchResponses</a></li><li><a href="global.html#handleStart">handleStart</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#redirectToPage">redirectToPage</a></li><li><a href="global.html#setCanvasPanning">setCanvasPanning</a></li><li><a href="global.html#setCategoryEffect">setCategoryEffect</a></li><li><a href="global.html#setSelection">setSelection</a></li><li><a href="global.html#toSkyMapPage">toSkyMapPage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Jun 12 2023 08:21:35 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jun 14 2023 19:34:41 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
